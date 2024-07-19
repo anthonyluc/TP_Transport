@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import Metier.Destination.Destination;
 import Metier.Vehicule.Marin.Peniche;
@@ -47,8 +48,9 @@ public class App {
         System.out.println("7 - Réserver un véhicule");
         System.out.println("8 - Voir les véhicules réservés");
         System.out.println("9 - Voir les véhicules disponibles");
-        System.out.println("10 - Afficher les détails d'une destination");
-        System.out.println("11 - Quitter le programme");
+        System.out.println("10 - Rendre un véhicule disponible");
+        System.out.println("11 - Afficher les détails d'une destination");
+        System.out.println("12 - Quitter le programme");
         System.out.print("Que souhaitez-vous faire : ");
     }
 
@@ -84,9 +86,12 @@ public class App {
                 voirVehiculeDisponibles();
                 break;
             case 10:
-                detailsDestination();
+                rendreVehiculeDisponible();
                 break;
             case 11:
+                detailsDestination();
+                break;
+            case 12:
                 continuer = quitterProgram();
                 break;
         }
@@ -144,12 +149,16 @@ public class App {
     public void voirVehiculeReserves(){
         System.out.println("Voici la liste de tous les véhicules réservés: ");
 
-        vehiculesReserves.forEach((k,v) -> {
-            System.out.println(k);
-            System.out.println("\nPour\n");
-            System.out.println(v);
-            System.out.println();
-        });
+        int index = 1;
+        for (Map.Entry<Vehicule, Destination> vehiculeDestination : vehiculesReserves.entrySet()) {
+            System.out.println(index+") "+
+                    vehiculeDestination.getKey()+
+                    "\n\nPour\n\n" +
+                    vehiculeDestination.getValue()
+            );
+            ++index;
+        }
+
         System.out.println("-- Fin de la liste --");
     }
 
@@ -162,6 +171,23 @@ public class App {
             ++index;
         }
         System.out.println("-- Fin de la liste --");
+    }
+
+    public void rendreVehiculeDisponible(){
+        voirVehiculeReserves();
+        System.out.println("Quel véhicule souhaitez-vous rendre disponible : ");
+        int choixVehicule = inputIntUser() -1;
+
+        int index = 0;
+        for (Vehicule voiture : vehiculesReserves.keySet()) {
+            if(index == choixVehicule) {
+                vehiculesReserves.remove(voiture);
+                vehiculesDisponibles.add(voiture);
+            }
+            ++index;
+        }
+        System.out.println("Véhicule rendu disponible : ");
+        System.out.println(vehiculesDisponibles.get(vehiculesDisponibles.size()-1));
     }
 
     public void ajouterVehicule(){
@@ -271,7 +297,7 @@ public class App {
             }
         }
         this.getDestinations().add(destination);
-        System.out.println("Destination ajouté avec succès ! ");
+        System.out.println("Destination ajoutée avec succès ! ");
     }
 
     public void supprimerDestination(){
