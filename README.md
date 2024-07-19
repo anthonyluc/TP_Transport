@@ -12,5 +12,6 @@ Les fonctionnalités développées :
 7 - Réserver un véhicule
 8 - Voir les véhicules réservés
 9 - Voir les véhicules disponibles
-10 - Afficher les détails d'une destination
-11 - Quitter le programme
+10 - Rendre un véhicule disponible
+11 - Afficher les détails d'une destination
+12 - Quitter le programme
